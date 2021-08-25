@@ -1,5 +1,5 @@
 "use strict";
 
-var _t = require("./t");
+var _server = require("./server");
 
-(0, _t.sayAjas)();
+(0, _server.spinUpServer)();

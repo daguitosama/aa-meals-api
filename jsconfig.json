@@ -16,4 +16,7 @@
   "exclude": [
     "node_modules",
   ],
+  "types": [
+    "@types/express",
+  ],
 }
