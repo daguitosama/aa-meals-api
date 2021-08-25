@@ -1,7 +1,7 @@
 /** @type RequestHandler */
 export function singUpHandler(req,res,next){
     console.log('singUpHandler Hit');
-    res.end()
+    res.
 }
 
 
