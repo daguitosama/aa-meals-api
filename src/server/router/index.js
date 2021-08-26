@@ -1,18 +1,39 @@
 import Express from 'express';
 const router = Express.Router();
+import { body } from 'express-validator';
+
 import {
+    filterUserName,
+    fitlerUserPhone,
+    filterUserAddress,
     singUpHandler,
-    singUpValidation,
-    singUpSanitation,
     ipLog
 } from '~/server/services/SingUp'
 
 // router.use('singup',singUpMiddleware,singUpHandler);
 router.route('/singup/')
     // .get((req, res, next) => { res.end('sing up handling') })
-    .get(singUpSanitation, singUpValidation, singUpHandler)
-    .post(singUpSanitation, singUpValidation, singUpHandler);
+    .post(
+        filterUserName,
+        fitlerUserPhone,
+        filterUserAddress,
+        singUpHandler
+    );
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+// test only
 router.route('/ip/')
     .get(ipLog);
 

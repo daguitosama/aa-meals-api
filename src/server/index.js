@@ -4,10 +4,12 @@ const app = Express();
 import router from '~/server/router';
 import { apiLimiter } from '~/server/middleware/index.js';
 import helmet from 'helmet';
+// import bodyParser from 'body-parser';
 
 
 // general middlewares
 app.use(apiLimiter,helmet());
+app.use(Express.json());
 // api routes
 app.use('/api/', router);
 
