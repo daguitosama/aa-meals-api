@@ -1,9 +1,14 @@
 import { body, validationResult } from 'express-validator';
 
-export const filterUserName = body('userName', 'bad user name').not().isEmpty().escape();
-export const fitlerUserPhone = body('userPhone', 'bad user phone').isMobilePhone();
-export const filterUserAddress = body('userAddress', 'bad user address').not().isEmpty().escape();
+const filterUserName = body('userName', 'bad user name').not().isEmpty().escape();
+const fitlerUserPhone = body('userPhone', 'bad user phone').isMobilePhone();
+const filterUserAddress = body('userAddress', 'bad user address').not().isEmpty().escape();
 
+export  const singUpFilters = [
+    filterUserName,
+    fitlerUserPhone,
+    filterUserAddress,
+]
 
 /** @type RequestHandler */
 export function singUpHandler(req, res, next) {
