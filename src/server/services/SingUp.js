@@ -1,24 +1,30 @@
 import { body, validationResult } from 'express-validator';
+import { notify } from 'bot'
 
 const filterUserName = body('userName', 'bad user name').not().isEmpty().escape();
 const fitlerUserPhone = body('userPhone', 'bad user phone').isMobilePhone();
 const filterUserAddress = body('userAddress', 'bad user address').not().isEmpty().escape();
 
-export  const singUpFilters = [
+export const singUpFilters = [
     filterUserName,
     fitlerUserPhone,
     filterUserAddress,
 ]
 
 /** @type RequestHandler */
-export function singUpHandler(req, res, next) {
+export async function singUpHandler(req, res, next) {
     const { userName, userPhone, userAddress } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    res.status(200).json({ result: 'OK', userName, userPhone, userAddress });
+    try {
+        await notify({ userName, userAddress, userPhone });
+        res.status(200).json({ result: 'OK' });
+    } catch (error) {
+        return res.status(500).json({ error });
+    }
 }
 
 

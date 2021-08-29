@@ -1,7 +1,7 @@
 import { spinUpServer } from "server";
 import { bot, initBot, notify } from 'bot';
 
-// spinUpServer();
+spinUpServer();
 initBot();
 
 

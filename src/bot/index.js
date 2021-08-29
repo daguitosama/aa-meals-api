@@ -37,7 +37,7 @@ export function initBot() {
 
 export async function notify({ userName = "", userPhone = "", userAddress = "" }) {
 
-    console.log({ location: 'notify', userName, userPhone, userAddress })
+    // console.log({ location: 'notify', userName, userPhone, userAddress })
     // scape data strings
     userName = scape(userName);
     userPhone = scape(userPhone);

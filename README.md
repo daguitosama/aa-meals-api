@@ -12,6 +12,12 @@ yarn build
 yarn start
 
 ```
+
+## TODOS
+- [] Safe RegExp api protection
+- [] Bot disconnection and other errors handling
+- [] Fallback queque to save user data requests to prevent losing  when bot fails
+- 
 ## Structure
 ### Arquitecture
 -   Api rest interface
