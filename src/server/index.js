@@ -5,7 +5,8 @@ import router from '~/server/router';
 import { apiLimiter } from '~/server/middleware/index.js';
 import helmet from 'helmet';
 
-
+// app settings 
+app.set('trust proxy', 1); // behind proxy setting
 // general middlewares
 app.use(apiLimiter,helmet());
 app.use(Express.json());
