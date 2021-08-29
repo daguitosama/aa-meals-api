@@ -4,7 +4,6 @@ const app = Express();
 import router from '~/server/router';
 import { apiLimiter } from '~/server/middleware/index.js';
 import helmet from 'helmet';
-// import bodyParser from 'body-parser';
 
 
 // general middlewares

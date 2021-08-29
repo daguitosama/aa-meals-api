@@ -52,3 +52,29 @@ On bad request 400
 ## Telegram Bot
 
 Sends notifications messages to specified service administrators `ADMINISTRATORS` env variable.
+
+
+## Notes
+
+bot message anatomy
+```js
+
+var msg: {
+    message_id: 9,
+    from: {
+      id: 974077462,
+      is_bot: false,
+      first_name: 'Dago',
+      username: 'dago_d_havana',
+      language_code: 'en'
+    },
+    chat: {
+      id: 974077462,
+      first_name: 'Dago',
+      username: 'dago_d_havana',
+      type: 'private'
+    },
+    date: 1630178557,
+    text: 'hey'
+  }
+```
