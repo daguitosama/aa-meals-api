@@ -60,8 +60,8 @@ export async function initMailer() {
     console.log('Transporter up and runing with recipients', RECIPIENTS);
 }
 
-export async function sendErrorMailNotification(error) {
-    console.log('Sending error...')
+// base error send
+async function sendErrorMailNotification(error) {
 
     let tranporter = TRANSPORT;
     let mailOptions = {
@@ -73,17 +73,22 @@ export async function sendErrorMailNotification(error) {
     }
     try {
         const reponse = await tranporter.sendMail(mailOptions);
-        console.log('Sended');
 
         return newReplay(null, "OK", reponse);
     } catch (error) {
-        console.log('Send Fail');
         return newReplay(error, "FAIL", null);
     }
 
 }
 
-export async function sendSingUpErrorMail(singUpError = { error, userData }) {
+/**
+ * 
+ * @param {Object} singUpError 
+ * @returns {Object} jsonReplay
+ * Sends an email with the costumer data and the error.
+ */
+export async function sendSingUpErrorMail(singUpError  /*  { error, userData } */) {
+
 
     let tranporter = TRANSPORT;
     let mailOptions = {
@@ -91,15 +96,15 @@ export async function sendSingUpErrorMail(singUpError = { error, userData }) {
         to: RECIPIENTS,
         subject: 'AA Meals Sing Up Error',
         html: errorToHTML(singUpError),
-        text: errorToText(singUpError)
+        text: errorToText(singUpError),
     }
     try {
         const reponse = await tranporter.sendMail(mailOptions);
-        console.log('Sended');
+        console.log('Sended Sing Up Error', new Date(), errorToText(singUpError));
 
         return newReplay(null, "OK", reponse);
     } catch (error) {
-        console.log('Send Fail');
+        console.log('Send Fail', new Date());
         return newReplay(error, "FAIL", null);
     }
 
@@ -114,7 +119,7 @@ export function errorToHTML(singUpError) {
         ${new Date()}  
     </p> 
 
-    <h2> Cosumer Data </h2>
+    <h2> Costumer Data </h2>
     <p>
         <b> Name: <b>
     </p> 
@@ -140,29 +145,21 @@ export function errorToHTML(singUpError) {
         <b> Message: <b>
     </p> 
     <p>
-        ${singUpError.error.message}
+        ${singUpError.error}
     </p> 
-    <p>
-        <b> Code: <b>
-    </p> 
-    <p>
-        ${singUpError.error.code}
-    </p> 
-    <p>
-        <b> Stack: <b>
-    </p> 
-    <p>${singUpError.error.stack}</p>`
+    `
 
     return html;
 }
 
 export function errorToText(singUpError) {
+
     var text = `
     Sing Up Error  
        
     ${new Date()} 
 
-    Cosumer Data:
+    Costumer Data:
 
     Name:
         ${singUpError.userData.userName}
@@ -170,19 +167,12 @@ export function errorToText(singUpError) {
         ${singUpError.userData.userPhone}
     Address:
         ${singUpError.userData.userAddress}
-    
 
-
+        
     Error:
 
     Message:
-        ${singUpError.error.message}
-    
-    Code:
-        ${singUpError.error.code}
-    
-    Stack:
-        ${singUpError.error.stack}
+        ${singUpError.error}
     `
 
     return text;

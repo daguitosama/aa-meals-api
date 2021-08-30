@@ -37,7 +37,6 @@ export function initBot() {
 
 export async function notify({ userName = "", userPhone = "", userAddress = "" }) {
 
-    // console.log({ location: 'notify', userName, userPhone, userAddress })
     // scape data strings
     userName = scape(userName);
     userPhone = scape(userPhone);
@@ -54,31 +53,30 @@ export async function notify({ userName = "", userPhone = "", userAddress = "" }
         await Promise.all(sendPromises);
         return newReplay(null, 'OK', null);
     } catch (error) {
-        return newReplay(error, 'OK', { userData: { userName, userPhone, userAddress } });
+        return newReplay(error, 'FAIL', { userData: { userName, userPhone, userAddress } });
     }
 }
 
 function sendPromise(chatId, message) {
     return new Promise(
         (resolve, reject) => {
-
             bot.sendMessage(chatId, message, { parse_mode: 'Markdown' })
-                .then(_ => {
-                    resolve();
-                })
-                .catch(error => {
-                    if (error.code == 'EFATAL') {
-                        // handle fatal error
-                        // console.log(error)
-                    }
+            .then(_ => {
+                resolve();
+            })
+            .catch(error => {
+                // just log non send message errors
+                if (error.code == 'EFATAL') {
+                    // handle fatal error
+                    console.error(error, new Date());
+                }
+                // just reject message related telegram send message api errors ( 400 Bad requests ) 
                     if (error.code == 'ETELEGRAM') {
                         // handle message error
                         // console.log(error.code, error.message)
                     }
                     reject(error.message)
                 })
-
-
         }
     )
 
@@ -90,8 +88,9 @@ function scape(str, replacer = " ") {
         str = String(str);
     }
     var unsafeCharsExp = /[_*`\[]/g;
+    var unsafeCharsExpForErrorTest = /[*`\[]/g;
 
-    return str.replace(unsafeCharsExp, replacer);
+    return str.replace(unsafeCharsExpForErrorTest, replacer);
 }
 
 function toClientMessage({ userName, userPhone, userAddress }) {

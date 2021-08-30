@@ -7,19 +7,32 @@
 
 
 
-import { bot, initBot, notify as botNotify } from 'bot';
-import { errorToHTML, errorToText, initMailer, sendErrorMailNotification } from 'mail'
+import { bot, initBot, notify as sendBotNotification } from 'bot';
+import { initMailer, sendSingUpErrorMail } from 'mail'
 
 
 
-export async function initNotifier(params) {
+export async function initNotifier() {
     try {
-       await initBot();
-       await initMailer();
+        await initBot();
+        await initMailer();
     } catch (error) {
         console.error(error);
         process.exit(1);
     }
 }
 
-export async function notify() { }
+export async function notify({ userName, userPhone, userAddress }) {
+
+    try {
+        const sendBotRes = await sendBotNotification({ userName, userPhone, userAddress });
+        console.log({ sendBotRes })
+        // bot notification failure
+        if (!sendBotRes.ok) {
+            await sendSingUpErrorMail({ error: sendBotRes.error, userData: sendBotRes.payload.userData });
+        }
+    } catch (error) {
+        console.error(error);
+    }
+
+}
