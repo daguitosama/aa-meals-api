@@ -34,12 +34,12 @@ export async function initMailer() {
             GOOGLE_OAUTH_CLIENT_SECRET,
             "https://developers.google.com/oauthplayground"
         );
-    
+
         myOAuth2Client.setCredentials(
             { refresh_token: GOOGLE_AUTH_REFRESH_TOKEN }
         );
         const myAccessToken = await myOAuth2Client.getAccessToken();
-    
+
         TRANSPORT = nodemailer.createTransport({
             logger: process.env.NODE_ENV === 'development' ? true : false,
             socketTimeout: 1e4,
@@ -83,29 +83,106 @@ export async function sendErrorMailNotification(error) {
 
 }
 
-export function errorToHTML(error) {
+export async function sendSingUpErrorMail(singUpError = { error, userData }) {
+
+    let tranporter = TRANSPORT;
+    let mailOptions = {
+        from: GOOGLE_GMAIL_USER,
+        to: RECIPIENTS,
+        subject: 'AA Meals Sing Up Error',
+        html: errorToHTML(singUpError),
+        text: errorToText(singUpError)
+    }
+    try {
+        const reponse = await tranporter.sendMail(mailOptions);
+        console.log('Sended');
+
+        return newReplay(null, "OK", reponse);
+    } catch (error) {
+        console.log('Send Fail');
+        return newReplay(error, "FAIL", null);
+    }
+
+}
+
+export function errorToHTML(singUpError) {
     var html = `
-    <h1>Error</h1>
-    <p> ${new Date()}  </p> <p><b> Message: <b></p> <p>${error.message}</p> <p><b> Code: <b></p> <p>${error.code}</p> <p><b> Stack: <b></p> <p>${error.stack}</p>`
+    <h1>
+        Sing Up Error
+    </h1>
+    <p> 
+        ${new Date()}  
+    </p> 
+
+    <h2> Cosumer Data </h2>
+    <p>
+        <b> Name: <b>
+    </p> 
+    <p>
+        ${singUpError.userData.userName}
+    </p>
+    <p>
+        <b> Phone: <b>
+    </p> 
+    <p>
+        ${singUpError.userData.userPhone}
+    </p>
+    <p>
+        <b> Address: <b>
+    </p> 
+    <p>
+        ${singUpError.userData.userAddress}
+    </p> 
+    
+
+    <h2> Error </h2>
+    <p>
+        <b> Message: <b>
+    </p> 
+    <p>
+        ${singUpError.error.message}
+    </p> 
+    <p>
+        <b> Code: <b>
+    </p> 
+    <p>
+        ${singUpError.error.code}
+    </p> 
+    <p>
+        <b> Stack: <b>
+    </p> 
+    <p>${singUpError.error.stack}</p>`
 
     return html;
 }
 
-export function errorToText(error) {
+export function errorToText(singUpError) {
     var text = `
-    Error  
+    Sing Up Error  
        
     ${new Date()} 
+
+    Cosumer Data:
+
+    Name:
+        ${singUpError.userData.userName}
+    Phone:
+        ${singUpError.userData.userPhone}
+    Address:
+        ${singUpError.userData.userAddress}
     
+
+
+    Error:
+
     Message:
-    ${error.message}
+        ${singUpError.error.message}
     
     Code:
-    ${error.code}
+        ${singUpError.error.code}
     
     Stack:
-    ${error.stack}
-    
+        ${singUpError.error.stack}
     `
 
     return text;
