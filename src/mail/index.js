@@ -26,32 +26,38 @@ const RECIPIENTS = [ERROR_NOTIFICATIONS_RECIPIENTS_LIST.split(',')]
  */
 var TRANSPORT;
 
-export function initMailer() {
+export async function initMailer() {
 
-    const myOAuth2Client = new OAuth2(
-        GOOGLE_OATUH_CLIENT_ID,
-        GOOGLE_OAUTH_CLIENT_SECRET,
-        "https://developers.google.com/oauthplayground")
+    try {
+        const myOAuth2Client = new OAuth2(
+            GOOGLE_OATUH_CLIENT_ID,
+            GOOGLE_OAUTH_CLIENT_SECRET,
+            "https://developers.google.com/oauthplayground"
+        );
+    
+        myOAuth2Client.setCredentials(
+            { refresh_token: GOOGLE_AUTH_REFRESH_TOKEN }
+        );
+        const myAccessToken = await myOAuth2Client.getAccessToken();
+    
+        TRANSPORT = nodemailer.createTransport({
+            logger: process.env.NODE_ENV === 'development' ? true : false,
+            socketTimeout: 1e4,
+            service: "gmail",
+            auth: {
+                type: "OAuth2",
+                user: GOOGLE_GMAIL_USER, //your gmail account you used to set the project up in google cloud console"
+                clientId: GOOGLE_OATUH_CLIENT_ID,
+                clientSecret: GOOGLE_OAUTH_CLIENT_SECRET,
+                refreshToken: GOOGLE_AUTH_REFRESH_TOKEN,
+                accessToken: myAccessToken
+            }
+        });
+    } catch (error) {
+        throw error;
+    }
 
-    myOAuth2Client.setCredentials(
-        { refresh_token: GOOGLE_AUTH_REFRESH_TOKEN }
-    );
-    const myAccessToken = myOAuth2Client.getAccessToken()
-
-    TRANSPORT = nodemailer.createTransport({
-        logger: process.env.NODE_ENV === 'development' ? true : false,
-        socketTimeout: 1e4,
-        service: "gmail",
-        auth: {
-            type: "OAuth2",
-            user: GOOGLE_GMAIL_USER, //your gmail account you used to set the project up in google cloud console"
-            clientId: GOOGLE_OATUH_CLIENT_ID,
-            clientSecret: GOOGLE_OAUTH_CLIENT_SECRET,
-            refreshToken: GOOGLE_AUTH_REFRESH_TOKEN,
-            accessToken: myAccessToken
-        }
-    });
-    console.log('Transporter up and runing...')
+    console.log('Transporter up and runing with recipients', RECIPIENTS);
 }
 
 export async function sendErrorMailNotification(error) {

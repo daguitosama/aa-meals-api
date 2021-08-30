@@ -1,8 +1,8 @@
 import { spinUpServer } from "server";
-import { bot, initBot, notify } from 'bot';
+import { initNotifier } from 'notifications';
+// spinUpServer();
 
-spinUpServer();
-initBot();
+
 
 
 var testClientData = {
@@ -12,16 +12,4 @@ var testClientData = {
 };
 
 
-
-bot.on('message', onMessage);
-
-function onMessage(msg) {
-    notify(testClientData);
-}
-
-
-function defer(fn) {
-    if (typeof fn == 'function') {
-        setTimeout(fn, 0)
-    }
-}
+initNotifier();

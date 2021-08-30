@@ -9,7 +9,7 @@
  */
 
 
-
+import { newReplay } from '@d4g0/utils';
 import TelegramBot from "node-telegram-bot-api";
 import { telegramIdsStrToArray } from './utils'
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
@@ -52,8 +52,9 @@ export async function notify({ userName = "", userPhone = "", userAddress = "" }
     // send messages to administators
     try {
         await Promise.all(sendPromises);
+        return newReplay(null, 'OK', null);
     } catch (error) {
-        console.log(error)
+        return newReplay(error, 'OK', { userData: { userName, userPhone, userAddress } });
     }
 }
 
