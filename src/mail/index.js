@@ -100,11 +100,9 @@ export async function sendSingUpErrorMail(singUpError  /*  { error, userData } *
     }
     try {
         const reponse = await tranporter.sendMail(mailOptions);
-        console.log('Sended Sing Up Error', new Date(), errorToText(singUpError));
-
         return newReplay(null, "OK", reponse);
+
     } catch (error) {
-        console.log('Send Fail', new Date());
         return newReplay(error, "FAIL", null);
     }
 

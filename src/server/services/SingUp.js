@@ -1,5 +1,5 @@
 import { body, validationResult } from 'express-validator';
-import { notify } from 'bot'
+import { notify } from 'notifications';
 
 const filterUserName = body('userName', 'bad user name').not().isEmpty().escape();
 const fitlerUserPhone = body('userPhone', 'bad user phone').isMobilePhone();
