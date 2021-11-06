@@ -9,7 +9,7 @@
   "scripts": {
     "build": "babel ./src/ -d dist",
     "dev": "nodemon -r dotenv/config index.js",
-    "start": "NODE_ENV=production  node -r dotenv/config dist/index.js"
+    "start": "NODE_ENV=production  node  dist/index.js"
   },
   "dependencies": {
     "@d4g0/utils": "^0.0.2",
