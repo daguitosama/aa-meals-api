@@ -21,7 +21,7 @@ export async function singUpHandler(req, res, next) {
 
     try {
         await notify({ userName, userAddress, userPhone });
-        res.status(200).json({ result: 'OK' });
+        return res.status(200).json({ result: 'OK' });
     } catch (error) {
         return res.status(500).json({ error });
     }

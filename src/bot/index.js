@@ -14,6 +14,7 @@ import TelegramBot from "node-telegram-bot-api";
 import { telegramIdsStrToArray } from './utils'
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const ADMINISTRATORS_IDS = process.env.ADMINISTRATORS_IDS;
+const SYSTEM_ADMINISTRATOR_IDS = process.env.SYSTEM_ADMINISTRATOR_IDS;
 
 /**
  * The bot singleton instance oulet
@@ -24,10 +25,12 @@ export var bot = null;
  * The administrators reference
  */
 var administrators = null;
-
+var systemAdministrators = null;
 export function initBot() {
     // populate administrators
     administrators = telegramIdsStrToArray(ADMINISTRATORS_IDS);
+    // populate sys admins
+    systemAdministrators = telegramIdsStrToArray(SYSTEM_ADMINISTRATOR_IDS);
     // spin up the bot
     bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
     console.log('Bot ready to notify to: ', administrators);
@@ -46,7 +49,6 @@ export async function sendBotNotification({ userName = "", userPhone = "", userA
     const sendPromises = administrators.map((administratorId) => {
         return sendPromise(administratorId, message);
     });
-
     // send messages to administators
     try {
         await Promise.all(sendPromises);
@@ -76,8 +78,10 @@ function sendPromise(chatId, message) {
                 .catch(error => {
                     // it looks like as default the bot api holds the disconnection errors
                     // and resume sending when connection available
-                    // just bad request errors will be rised here
-                    reject(error.message);
+
+                    // reject all errors
+                    reject(error.message)
+
 
                     // TODO - OLD MENTAL MODEL - INVESTIGATE
                     // old mental model
@@ -122,25 +126,28 @@ function toClientMessage({ userName, userPhone, userAddress }) {
 
 
 
-
-
-
-// defer(
-//     () => {
-//         bot.on('polling_error', (error) => {
-//             console.log(error);  // => 'EFATAL'
-//         });
-//     }
-// )
-
-
-function defer(fn) {
-    if (typeof fn == 'function') {
-        setTimeout(fn, 0)
+/**
+ * Notifies all system administrators with a beacon
+ * Thinked for status checks monitoring
+ * @returns 
+ */
+export async function botSendBeacon() {
+    const beaconMessage = [
+        `*aa-meals-api.beacon*` ,
+        `[ ${new Date()} ]`
+    ].join('\n')
+    // send message to administrators
+    const sendPromises = systemAdministrators.map((id) => {
+        return sendPromise(id, beaconMessage);
+    });
+    // send messages to administators
+    try {
+        await Promise.all(sendPromises);
+        return newReplay(null, 'OK', null);
+    } catch (error) {
+        return newReplay(error, 'FAIL', null);
     }
-
 }
-
 
 
 // bot.on('message', (msg) => {

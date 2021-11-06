@@ -7,22 +7,21 @@ import {
     ipLog
 } from '~/server/services/SingUp'
 
-// router.use('singup',singUpMiddleware,singUpHandler);
+import { satusFilter, statusRequestHanlder, } from '~/server/services/Status'
+
+
+
 router.route('/singup/')
     // .get((req, res, next) => { res.end('sing up handling') })
     .post(singUpFilters, singUpHandler);
 
 
 
-
-
-
-
-
-
-
-
-
+// status monitoring
+router.route('/status/')
+    .get(
+        satusFilter,
+        statusRequestHanlder);
 
 
 // test only

@@ -17,7 +17,9 @@ yarn start
 - [] Safe RegExp api protection
 - [] Bot disconnection and other errors handling
 - [] Fallback queque to save user data requests to prevent losing  when bot fails
-- 
+- [] Set a bot.sendMessage timer to reject when connection errors take to long to fix,so it's necesary to falback to email error reporting and replay to front-end quickly.
+- [] Refactor Email Falback errors reporting as an standalone endpoind.
+- [Done] Set a status check endpoind (to monitoring sending beacons)
 ## Structure
 ### Arquitecture
 -   Api rest interface
@@ -25,9 +27,12 @@ yarn start
 -   Emails notifications falback and bot-notifications-failure notifications
 
 ### Api Rest
-Express based server with the enpoint: 
+Express based server with the enpoints: 
 
-`/singup/` 
+#### Singup
+
+POST : `/singup/` 
+
 
 Expecting a json payload anatomy like
 ```js
@@ -53,6 +58,32 @@ On bad request 400
     errors:[] // request especific errors
 }
 ```
+
+On internals error 500 
+```js
+{
+    error:'' // request especific errors
+}
+```
+
+
+#### Status
+
+GET : `/status/?password=pass`
+
+Password to protect the endpoint. (env variable)
+
+Replays with 
+
+on bad request `400`
+on bad password `401`
+
+if authorized trys to send a beacon
+and if 
+
+Success returns `200` , `{ status : 'ok' }`
+Fails returns `500` , `{ errors : errors }`
+
 
 
 ## Telegram Bot
