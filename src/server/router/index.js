@@ -4,7 +4,7 @@ const router = Express.Router();
 import {
     singUpFilters,
     singUpHandler,
-    ipLog
+    ipLog,
 } from '~/server/services/SingUp'
 
 import { satusFilter, statusRequestHanlder, } from '~/server/services/Status'
@@ -27,7 +27,6 @@ router.route('/status/')
 // test only
 router.route('/ip/')
     .get(ipLog);
-
 
 
 export default router;

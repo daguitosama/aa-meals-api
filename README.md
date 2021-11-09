@@ -24,7 +24,7 @@ yarn start
 ### Arquitecture
 -   Api rest interface
 -   Telegram Bot notification delivery
--   Emails notifications falback and bot-notifications-failure notifications
+-   [ Posponed ] Emails notifications falback and bot-notifications-failure notifications
 
 ### Api Rest
 Express based server with the enpoints: 
@@ -36,7 +36,8 @@ POST : `/singup/`
 
 Expecting a json payload anatomy like
 ```js
-    {
+    {   
+        token:''       // token google captcha validation ( obtained by challenge response ) 
         userPhone:''   // valid phone number
         userEmail:''   // valid email
         userAddress:'' // address 
@@ -48,7 +49,12 @@ Replays:
 On success 200 
 ```js
 {
-    result:'OK'
+    result:'OK',
+    payload: { /* google captcha success payload response */
+    success: true,
+    challenge_ts: '2021-11-09T00:38:35Z',
+    hostname: 'localhost'
+  }
 }
 ```
 
@@ -62,7 +68,7 @@ On bad request 400
 On internals error 500 
 ```js
 {
-    error:'' // request especific errors
+    error:'' // request especific errors || or google-catpcha error api reason
 }
 ```
 

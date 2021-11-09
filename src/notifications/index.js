@@ -1,6 +1,6 @@
 /**
  * The notification logic service
- * Starup Secuences of Bot and Mailer
+ * Starup Secuences of Bot and 
  * Bot send handling
  * Emails error send hanlding
  */
