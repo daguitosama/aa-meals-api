@@ -51,10 +51,15 @@ export async function singUpHandler(req, res, next) {
         await notify({ userName, userAddress, userPhone });
         return res.status(200).json({ result: 'OK', payload: gcRes });
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
     }
 }
 
+
+export function reqLogger (req,res,next){
+    console.log(req.body);
+    next()
+}
 
 
 

@@ -5,6 +5,7 @@ import {
     singUpFilters,
     singUpHandler,
     ipLog,
+    reqLogger,
 } from '~/server/services/SingUp'
 
 import { satusFilter, statusRequestHanlder, } from '~/server/services/Status'
@@ -13,7 +14,11 @@ import { satusFilter, statusRequestHanlder, } from '~/server/services/Status'
 
 router.route('/singup/')
     // .get((req, res, next) => { res.end('sing up handling') })
-    .post(singUpFilters, singUpHandler);
+    .post(
+        // reqLogger,
+        singUpFilters, 
+        singUpHandler
+    );
 
 
 

@@ -1,4 +1,4 @@
-const PORT = process.env.PORT || 3010;
+const PORT = process.env.API_PORT || 3010;
 import Express from 'express';
 const app = Express();
 import router from '~/server/router';
