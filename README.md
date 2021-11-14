@@ -37,10 +37,10 @@ POST : `/singup/`
 Expecting a json payload anatomy like
 ```js
     {   
-        token:''       // token google captcha validation ( obtained by challenge response ) 
-        userPhone:''   // valid phone number
-        userEmail:''   // valid email
-        userAddress:'' // address 
+        token:''        // token google captcha validation ( obtained by challenge response ) 
+        userName:''     // valid name
+        userPhone:''    // valid phone number
+        userAddress:''  // address 
     }
 ```
 
@@ -48,7 +48,8 @@ Replays:
 
 On success 200 
 ```js
-{
+{   
+    ok:true
     result:'OK',
     payload: { /* google captcha success payload response */
     success: true,

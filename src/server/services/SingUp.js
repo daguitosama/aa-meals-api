@@ -49,7 +49,7 @@ export async function singUpHandler(req, res, next) {
         }
         // notify when is valid
         await notify({ userName, userAddress, userPhone });
-        return res.status(200).json({ result: 'OK', payload: gcRes });
+        return res.status(200).json({ result: 'OK', ok:true, payload: gcRes });
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
@@ -57,7 +57,9 @@ export async function singUpHandler(req, res, next) {
 
 
 export function reqLogger (req,res,next){
-    console.log(req.body);
+    // console.log({
+    //     body:req.body
+    // });
     next()
 }
 

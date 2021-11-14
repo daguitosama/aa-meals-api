@@ -15,7 +15,7 @@ import { satusFilter, statusRequestHanlder, } from '~/server/services/Status'
 router.route('/singup/')
     // .get((req, res, next) => { res.end('sing up handling') })
     .post(
-        // reqLogger,
+        reqLogger,
         singUpFilters, 
         singUpHandler
     );
