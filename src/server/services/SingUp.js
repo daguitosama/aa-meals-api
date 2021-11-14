@@ -57,9 +57,9 @@ export async function singUpHandler(req, res, next) {
 
 
 export function reqLogger (req,res,next){
-    // console.log({
-    //     body:req.body
-    // });
+    console.log({
+        body:req.body
+    });
     next()
 }
 
