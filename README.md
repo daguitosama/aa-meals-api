@@ -122,3 +122,8 @@ var msg: {
     text: 'hey'
   }
 ```
+
+## Bot Setup
+
+### ADMINISTRATORS_IDS
+the (coma separated line) of business administrators telegram ids.
