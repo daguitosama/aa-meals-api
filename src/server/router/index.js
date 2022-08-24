@@ -16,7 +16,7 @@ router.route('/singup/')
     // .get((req, res, next) => { res.end('sing up handling') })
     .post(
         // reqLogger,
-        singUpFilters, 
+        // singUpFilters, 
         singUpHandler
     );
 
@@ -30,8 +30,8 @@ router.route('/status/')
 
 
 // test only
-router.route('/ip/')
-    .get(ipLog);
+// router.route('/ip/')
+//     .get(ipLog);
 
 
 export default router;

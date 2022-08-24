@@ -20,9 +20,9 @@ export async function initNotifier() {
     }
 }
 
-export async function notify({ userName, userPhone, userAddress }) {
+export async function notify(form_data) {
     var sendBotRes;
-    sendBotRes = await sendBotNotification({ userName, userPhone, userAddress });
+    sendBotRes = await sendBotNotification(form_data);
     // bot notification failure
     if (!sendBotRes.ok) {
         throw sendBotRes.error;
