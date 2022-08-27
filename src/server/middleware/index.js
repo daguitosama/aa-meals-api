@@ -11,10 +11,20 @@ const CAPTCHA_SECRET_KEY = process.env.CAPTCHA_SECRET_KEY;
 /**
  * The limiter middleware
  */
-export const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
-});
+export const apiLimiter =
+  process.env.NODE_ENV != "production"
+    ? rateLimit({
+        windowMs: 15 * 60 * 1000, // 15 minutes
+        max: 100,
+      })
+    : rateLimit({
+        windowMs: 24 * 60 * 60 * 1000, // production 24h
+        max: 10,
+      });
+
+
+
+
 
 /** @type RequestHandler */
 export async function is_valid_captcha_token(req, res, next) {
