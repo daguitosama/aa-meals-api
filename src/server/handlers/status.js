@@ -1,9 +1,9 @@
-import { sendBeacon } from "notifications";
+import { bot } from "~/bot/bot_api_service";
 import { query, validationResult } from 'express-validator';
 const STATUS_END_POINT_PASSWORD = process.env.STATUS_END_POINT_PASSWORD;
 
 /** @type RequestHandler */
-export const satusFilter = query('password').not().isEmpty().trim().escape();
+export const satus_filter = query('password').not().isEmpty().trim().escape();
 
 /** @type RequestHandler */
 export function queryLogger(req, res, next) {
@@ -12,7 +12,7 @@ export function queryLogger(req, res, next) {
 }
 
 /** @type RequestHandler */
-export async function statusRequestHanlder(req, res, next) {
+export async function on_status_request(req, res, next) {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -26,7 +26,7 @@ export async function statusRequestHanlder(req, res, next) {
     }
 
     try {
-        await sendBeacon();
+        await bot.notify_beacon();
         return res.status(200).json({ status: 'ok' });
     } catch (error) {
         return res.status(500).json({ status: 'down', beaconError: error })

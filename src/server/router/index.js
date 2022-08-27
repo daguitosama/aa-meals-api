@@ -1,23 +1,14 @@
 import Express from "express";
 import { on_lean_singup, on_singup } from "server/handlers/singup";
 const router = Express.Router();
-
-import {
-  singUpFilters,
-  singUpHandler,
-  ipLog,
-  reqLogger,
-} from "~/server/services/SingUp";
-
-import { satusFilter, statusRequestHanlder } from "~/server/services/Status";
+import { satus_filter, on_status_request } from "server/handlers/status";
+// import { ipLog } from "server/handlers/utils";
 
 router.route("/singup/").post(on_singup);
-
 router.route("/singup-lean/").post(on_lean_singup);
 
-
 // status monitoring
-router.route("/status/").get(satusFilter, statusRequestHanlder);
+router.route("/status/").get(satus_filter, on_status_request);
 
 // test only
 // router.route('/ip/')
