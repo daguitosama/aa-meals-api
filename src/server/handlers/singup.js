@@ -12,7 +12,7 @@ export async function on_singup(req, res, next) {
     await bot.notify_business_administrators(message);
     return res.status(200).json({ ok: true, error: null });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ error: "Server Failure", ok: false });
   }
 }
@@ -27,7 +27,7 @@ export async function on_lean_singup(req, res, next) {
     await bot.notify_business_administrators(message);
     return res.status(200).json({ ok: true, error: null });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ error: "Server Failure", ok: false });
   }
 }
