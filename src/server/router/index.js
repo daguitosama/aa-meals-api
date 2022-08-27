@@ -1,5 +1,5 @@
 import Express from "express";
-import { on_singup } from "server/handlers/singup";
+import { on_lean_singup, on_singup } from "server/handlers/singup";
 const router = Express.Router();
 
 import {
@@ -11,22 +11,10 @@ import {
 
 import { satusFilter, statusRequestHanlder } from "~/server/services/Status";
 
+router.route("/singup/").post(on_singup);
 
+router.route("/singup-lean/").post(on_lean_singup);
 
-router
-  .route("/singup/")
-  // .get((req, res, next) => { res.end('sing up handling') })
-  .post(
-    // reqLogger,
-    // singUpFilters,
-    singUpHandler
-  );
-
-router
-  .route("/singup-v2/")
-  .post(
-    on_singup
-  );
 
 // status monitoring
 router.route("/status/").get(satusFilter, statusRequestHanlder);

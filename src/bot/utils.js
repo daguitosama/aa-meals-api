@@ -76,8 +76,8 @@ export function costumer_data_to_message(costumer_data) {
   return `
 *New Sing Up*
 *Costumer:*
-${costumer_data.costumer.name}
-${costumer_data.costumer.phone}
-${costumer_data.costumer.delivery_address}
+${costumer_data.name}
+${costumer_data.phone}
+${costumer_data.delivery_address}
   `;
 }
