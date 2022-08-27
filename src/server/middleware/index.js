@@ -47,3 +47,9 @@ export async function is_valid_captcha_token(req, res, next) {
 
   next();
 }
+
+
+export async function log_body(req,res,next) {
+    console.log(req.body);
+    next()
+}

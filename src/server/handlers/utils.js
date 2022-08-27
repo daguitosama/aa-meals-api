@@ -8,5 +8,5 @@ export function reqLogger(req, res, next) {
 // test only
 /** @type RequestHandler */
 export function ipLog(req, res, next) {
-  res.end(req.ip);
+  return res.status(200).json({ ip: req.ip });
 }
