@@ -4,7 +4,8 @@ const router = Express.Router();
 import { satus_filter, on_status_request } from "server/handlers/status";
 import { ipLog } from "server/handlers/utils";
 
-router.route("/singup/").post(on_singup);
+// temporaly disable full singup flow
+// router.route("/singup/").post(on_singup);
 router.route("/singup-lean/").post(on_lean_singup);
 
 // status monitoring
