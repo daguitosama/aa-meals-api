@@ -36,12 +36,24 @@ POST : `/singup/`
 
 Expecting a json payload anatomy like
 ```js
-    {   
-        token:''        // token google captcha validation ( obtained by challenge response ) 
-        userName:''     // valid name
-        userPhone:''    // valid phone number
-        userAddress:''  // address 
+{
+  form_data: {
+    plan_type: 'Keto',
+    meals: { frecuence: 'Weekly', meals_per_week: '10' },
+    menu: { nots: [Array] },
+    costumer: {
+      name: 'Bender Rodriguez',
+      phone: '5128872872',
+      delivery_address: '401 FM685 #306'
+    },
+    checkout: {
+      name_on_card: 'Bender Rodriguez',
+      card_number: '5128872872',
+      expiration_date: '08/09',
+      cvv: '1231',
+      billing_zip_code: '12312'
     }
+}
 ```
 
 Replays:
